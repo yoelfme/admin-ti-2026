@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:18
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres-backup-restore-data:/var/lib/postgresql/data/pgdata
+
+volumes:
+  postgres-backup-restore-data:

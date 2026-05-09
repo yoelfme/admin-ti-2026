@@ -3,6 +3,8 @@ services:
     image: postgres:17
     container_name: online-retail-postgres
     hostname: postgres
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: metabase
       POSTGRES_PASSWORD: metabase123
