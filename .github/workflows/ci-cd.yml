@@ -108,6 +108,7 @@ jobs:
             docker logout ghcr.io
 
       - name: Smoke test /health
+        working-directory: ${{ github.workspace }}
         run: |
           for i in 1 2 3 4 5 6 7 8 9 10; do
             if curl -fsS "http://${{ secrets.SSH_HOST }}/health" | grep -q '"status":"ok"'; then
