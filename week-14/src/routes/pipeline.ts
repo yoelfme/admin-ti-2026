@@ -28,7 +28,7 @@ export const stages: Stage[] = [
   },
   {
     id: 'push',
-    name: 'Push image to GHCR',
+    name: 'Push docker image to GHCR',
     description: 'Authenticate with GITHUB_TOKEN and push tags latest + sha-<short>.',
     tool: 'docker/login-action@v3 + ghcr.io',
   },
