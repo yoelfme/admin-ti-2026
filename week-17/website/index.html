@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infrastructure as Code — Basics</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --border: #2d3a4f;
+      --text: #e6edf3;
+      --muted: #8b9cb3;
+      --accent: #3d9ae8;
+      --accent-dim: #2563a8;
+      --highlight: #5eead4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 3rem 1.5rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    }
+
+    header p {
+      max-width: 36rem;
+      margin: 0.75rem auto 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    main {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--highlight);
+    }
+
+    p {
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .lead {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    li {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+
+    li strong {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+      font-size: 0.95rem;
+    }
+
+    li span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem 0.25rem;
+      margin: 1.25rem 0;
+      padding: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .flow span {
+      padding: 0.35rem 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .flow .arrow {
+      color: var(--muted);
+      border: none;
+      background: none;
+      padding: 0 0.25rem;
+    }
+
+    code {
+      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
+      font-size: 0.85em;
+      background: var(--bg);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--highlight);
+    }
+
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-top: 0.75rem;
+    }
+
+    pre code {
+      border: none;
+      padding: 0;
+      background: none;
+      color: var(--text);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Infrastructure as <span>Code</span></h1>
+    <p>Define, version, and automate cloud resources the same way you manage application source code.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>What is IaC?</h2>
+      <p class="lead">
+        Infrastructure as Code (IaC) means describing servers, networks, storage, and other cloud
+        resources in machine-readable files instead of clicking through a portal or running ad-hoc scripts.
+      </p>
+      <p>
+        You write a <strong>desired state</strong>—for example, “one resource group and one storage account”—and
+        a tool compares that declaration to what already exists in the cloud, then creates, updates, or removes
+        resources to match.
+      </p>
+    </section>
+
+    <section>
+      <h2>Why use it?</h2>
+      <ul>
+        <li>
+          <strong>Repeatable</strong>
+          <span>Spin up identical dev, staging, and production environments from the same definitions.</span>
+        </li>
+        <li>
+          <strong>Version controlled</strong>
+          <span>Track every infrastructure change in Git with reviews, diffs, and rollback.</span>
+        </li>
+        <li>
+          <strong>Documented by default</strong>
+          <span>The code is the specification—no separate runbooks that drift out of date.</span>
+        </li>
+        <li>
+          <strong>Automated</strong>
+          <span>Run <code>preview</code> and <code>up</code> (or equivalent) in CI/CD instead of manual console work.</span>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Core concepts</h2>
+      <ul>
+        <li>
+          <strong>Declarative</strong>
+          <span>You describe <em>what</em> you want, not the step-by-step shell commands to get there.</span>
+        </li>
+        <li>
+          <strong>State &amp; plan</strong>
+          <span>Tools compute a plan (diff) before applying changes so you can review impact first.</span>
+        </li>
+        <li>
+          <strong>Idempotency</strong>
+          <span>Running the same deployment twice should converge to the same end state without duplicates.</span>
+        </li>
+        <li>
+          <strong>Providers</strong>
+          <span>Plugins talk to Azure, AWS, GCP, Kubernetes, and hundreds of other APIs from one workflow.</span>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Typical workflow</h2>
+      <div class="flow" aria-label="IaC workflow">
+        <span>Write code</span>
+        <span class="arrow" aria-hidden="true">→</span>
+        <span>Preview plan</span>
+        <span class="arrow" aria-hidden="true">→</span>
+        <span>Review diff</span>
+        <span class="arrow" aria-hidden="true">→</span>
+        <span>Apply</span>
+        <span class="arrow" aria-hidden="true">→</span>
+        <span>Export outputs</span>
+      </div>
+      <p>
+        Popular tools include Terraform, Pulumi, AWS CloudFormation, and Azure Bicep. This project uses
+        <strong>Pulumi</strong> with Python to provision Azure resources.
+      </p>
+      <pre><code># Example: declare a storage account in code
+account = storage.StorageAccount(
+    "sa",
+    resource_group_name=resource_group.name,
+    sku={"name": storage.SkuName.STANDARD_LRS},
+    kind=storage.Kind.STORAGE_V2,
+)</code></pre>
+    </section>
+
+    <section>
+      <h2>Good practices</h2>
+      <ul>
+        <li>
+          <strong>Small, focused stacks</strong>
+          <span>Split large environments into manageable projects with clear ownership.</span>
+        </li>
+        <li>
+          <strong>Secrets outside code</strong>
+          <span>Use vaults, environment variables, or Pulumi config encryption—never commit keys.</span>
+        </li>
+        <li>
+          <strong>Preview in CI</strong>
+          <span>Run plans on every pull request so reviewers see infrastructure changes early.</span>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+  <p>
+    Week 17 — Admin TI &middot;
+    <a href="https://www.pulumi.com/docs/iac/concepts/">Pulumi IaC concepts</a>
+  </p>
+  </footer>
+</body>
+</html>
